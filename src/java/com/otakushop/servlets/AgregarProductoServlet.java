@@ -1,6 +1,6 @@
 package com.otakushop.servlets;
 
-import com.otakushop.dao.Producto;
+import com.otakushop.model.Producto;
 import com.otakushop.dao.ProductoDAO;
 import java.io.IOException;
 import javax.servlet.*;

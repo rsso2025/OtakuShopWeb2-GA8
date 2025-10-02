@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="com.otakushop.dao.Usuario" %>
+<%@ page import="com.otakushop.model.Usuario" %>
 <%@ page import="jakarta.servlet.http.HttpSession" %>
 <%
     HttpSession sesion = request.getSession(false);

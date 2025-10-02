@@ -1,4 +1,4 @@
-package otakushop.dao;
+package com.otakushop.model;
 
 public class Usuario {
     private int id;
@@ -15,7 +15,6 @@ public class Usuario {
         this.password = password;
     }
 
-    // Getters y Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 

@@ -1,5 +1,6 @@
 package com.otakushop.dao;
 
+import com.otakushop.model.Producto;
 import com.otakushop.util.ConexionDB;
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,12 +1,10 @@
 package com.otakushop.servlets;
 
 import com.otakushop.dao.PedidoDAO;
+import com.otakushop.model.Pedido;
 import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.*;
+import javax.servlet.http.*;
 
 public class PedidoServlet extends HttpServlet {
 
@@ -16,18 +14,18 @@ public class PedidoServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession sesion = request.getSession();
-        Integer idUsuario = (Integer) sesion.getAttribute("idUsuario");
+        try {
+            int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
+            double total = Double.parseDouble(request.getParameter("total"));
 
-        if (idUsuario == null) {
-            response.sendRedirect("login.jsp");
-            return;
+            pedidoDAO.crearPedido(idUsuario, total);
+
+            response.setContentType("application/json");
+            response.getWriter().write("{\"status\":\"ok\",\"mensaje\":\"Pedido creado exitosamente\"}");
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"status\":\"error\",\"mensaje\":\"" + e.getMessage() + "\"}");
         }
-
-        double total = Double.parseDouble(request.getParameter("total"));
-
-        pedidoDAO.crearPedido(idUsuario, total);
-
-        response.sendRedirect("home.jsp");
     }
 }

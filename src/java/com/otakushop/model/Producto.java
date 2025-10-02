@@ -1,4 +1,4 @@
-package com.otakushop.dao;
+package com.otakushop.model;
 
 public class Producto {
     private int id;

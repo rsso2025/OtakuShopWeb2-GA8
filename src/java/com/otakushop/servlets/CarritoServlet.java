@@ -1,12 +1,10 @@
 package com.otakushop.servlets;
 
+import com.otakushop.model.Carrito;
 import com.otakushop.dao.CarritoDAO;
 import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.*;
+import javax.servlet.http.*;
 
 public class CarritoServlet extends HttpServlet {
 
