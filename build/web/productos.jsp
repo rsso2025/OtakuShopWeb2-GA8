@@ -1,65 +1,61 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.otakushop.dao.Producto" %>
-<%@ page import="com.otakushop.dao.ProductoDAO" %>
+<%@ page import="java.sql.*, com.otakushop.util.Conexion" %>
+<%@ page session="true" %>
+<%
+    String usuario = (String) session.getAttribute("usuario");
+    if(usuario == null){
+        response.sendRedirect("login.jsp");
+        return;
+    }
+%>
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>GestiÃ³n de Productos - OtakuShop</title>
-    <link rel="stylesheet" href="estilos.css">
+    <title>Productos - OtakuShop</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f0f0; }
+        .container { width: 800px; margin: 50px auto; padding: 20px; background: white; border-radius: 10px; }
+        h2 { text-align: center; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px; border: 1px solid #ccc; text-align: center; }
+        th { background-color: #007BFF; color: white; }
+        a { text-decoration: none; color: #007BFF; font-weight: bold; }
+    </style>
 </head>
 <body>
-    <h2>Productos</h2>
+<div class="container">
+    <h2>Productos Disponibles</h2>
+    <p>Bienvenido, <%= usuario %> | <a href="login.jsp">Cerrar sesión</a></p>
 
-    <!-- Formulario para agregar un producto -->
-    <h3>Agregar Producto</h3>
-    <form action="AgregarProductoServlet" method="post">
-        <label for="nombre">Nombre:</label><br>
-        <input type="text" name="nombre" id="nombre" required><br><br>
-
-        <label for="precio">Precio:</label><br>
-        <input type="number" step="0.01" name="precio" id="precio" required><br><br>
-
-        <label for="stock">Stock:</label><br>
-        <input type="number" name="stock" id="stock" required><br><br>
-
-        <button type="submit">Agregar Producto</button>
-    </form>
-
-    <hr>
-
-    <!-- Listado de productos -->
-    <h3>Lista de Productos</h3>
-    <%
-        ProductoDAO productoDAO = new ProductoDAO();
-        List<Producto> productos = productoDAO.listarProductos();
-    %>
-
-    <table border="1" cellpadding="5" cellspacing="0">
+    <table>
         <tr>
             <th>ID</th>
             <th>Nombre</th>
             <th>Precio</th>
             <th>Stock</th>
-            <th>Acciones</th>
         </tr>
         <%
-            for (Producto p : productos) {
+            try (Connection con = Conexion.getConnection();
+                 PreparedStatement ps = con.prepareStatement("SELECT * FROM productos");
+                 ResultSet rs = ps.executeQuery()) {
+
+                while(rs.next()) {
         %>
         <tr>
-            <td><%= p.getId() %></td>
-            <td><%= p.getNombre() %></td>
-            <td><%= p.getPrecio() %></td>
-            <td><%= p.getStock() %></td>
-            <td>
-                <a href="EditarProductoServlet?id=<%= p.getId() %>">Editar</a> |
-                <a href="EliminarProductoServlet?id=<%= p.getId() %>">Eliminar</a>
-            </td>
+            <td><%= rs.getInt("id") %></td>
+            <td><%= rs.getString("nombre") %></td>
+            <td>$<%= rs.getBigDecimal("precio") %></td>
+            <td><%= rs.getInt("stock") %></td>
         </tr>
         <%
+                }
+            } catch(SQLException e) {
+                out.println("<tr><td colspan='4'>Error al cargar productos</td></tr>");
+                e.printStackTrace();
             }
         %>
     </table>
+    <p><a href="carrito.jsp">Ir al Carrito</a></p>
+</div>
 </body>
 </html>

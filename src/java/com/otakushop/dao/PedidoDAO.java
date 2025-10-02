@@ -1,13 +1,14 @@
 package com.otakushop.dao;
 
+import com.otakushop.model.Pedido;
 import com.otakushop.util.Conexion;
 import java.sql.*;
 
 public class PedidoDAO {
 
     public void crearPedido(int idUsuario, double total) {
-        String sql = "INSERT INTO pedidos (id_usuario, total) VALUES (?, ?)";
-        try (Connection con = Conexion.getConexion();
+        String sql = "INSERT INTO pedidos (usuario_id, total) VALUES (?, ?)";
+        try (Connection con = Conexion.getConnection();
              PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setInt(1, idUsuario);
@@ -24,6 +25,4 @@ public class PedidoDAO {
             e.printStackTrace();
         }
     }
-
-    // Métodos adicionales: listar pedidos, actualizar estado, detalle_pedido, etc.
 }
