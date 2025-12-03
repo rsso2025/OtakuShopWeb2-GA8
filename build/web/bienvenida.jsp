@@ -1,9 +1,8 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ page import="com.otakushop.model.Usuario" %>
-<%@ page import="jakarta.servlet.http.HttpSession" %>
 <%
-    HttpSession sesion = request.getSession(false);
-    Usuario usuario = (Usuario) sesion.getAttribute("usuario");
+    // Usamos la sesión implícita de JSP (no necesitamos importar HttpSession)
+    Usuario usuario = (Usuario) session.getAttribute("usuario");
     if (usuario == null) {
         response.sendRedirect("login.jsp");
         return;
@@ -16,7 +15,7 @@
 <body>
     <h2>Bienvenido, <%= usuario.getNombre() %>!</h2>
     <p>Tu email es: <%= usuario.getEmail() %></p>
-    <form action="LogoutServlet" method="post">
+    <form action="logout" method="get">
         <button type="submit">Cerrar Sesión</button>
     </form>
 </body>

@@ -1,124 +1,354 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.otakushop.model.Usuario" %>
-<%
-    Usuario usuario = (Usuario) session.getAttribute("usuario");
-    if (usuario == null) {
-        response.sendRedirect("login.jsp");
-        return;
-    }
-%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%-- 
+    INICIO.JSP - Dashboard principal
+    Refactorizado: SIN scriptlets Java - 100% JSTL/EL
+--%>
+
+<%-- Validación de sesión con JSTL --%>
+<c:if test="${empty sessionScope.usuario}">
+    <c:redirect url="login.jsp"/>
+</c:if>
+
+<%-- Determinar si es admin --%>
+<c:set var="esAdmin" value="${sessionScope.usuario.rol == 'admin' || sessionScope.usuario.rol == 'administrador'}"/>
+
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - OtakuShop</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: #f5f6fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            min-height: 100vh;
         }
-        h2 { color: #1f6feb; }
-        .menu {
-            margin: 20px 0;
-            padding: 10px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        
+        .main-content {
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        .menu ul { list-style: none; padding: 0; }
-        .menu li { margin: 10px 0; }
-        .menu a {
+        
+        .welcome-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .welcome-card h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 28px;
+        }
+        
+        .user-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .detail-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .detail-item label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .detail-item span {
+            font-size: 16px;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .menu-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
             text-decoration: none;
-            color: #1f6feb;
-            font-weight: bold;
+            color: inherit;
         }
-        /* --- Estilos Chatbot --- */
-        .os-chat-container{width:100%;max-width:420px;background:#fff;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,.08);display:flex;flex-direction:column;overflow:hidden;font-family:Arial,Helvetica,sans-serif;margin-top:20px}
-        .os-chat-header{background:#1f6feb;color:#fff;padding:10px 14px;font-weight:700}
-        .os-messages{flex:1;padding:12px;overflow:auto;background:#f7f9fc;min-height:120px}
-        .os-message{margin:8px 0;padding:9px;border-radius:10px;max-width:80%;font-size:14px;line-height:1.3}
-        .os-bot{background:#eef2ff;align-self:flex-start}
-        .os-user{background:#d0e8ff;align-self:flex-end}
-        .os-input-area{display:flex;border-top:1px solid #e6eefb;padding:8px}
-        .os-input-area input{flex:1;padding:9px;border:1px solid #e2e8f0;border-radius:6px}
-        .os-input-area button{margin-left:8px;padding:9px 12px;border:none;background:#1f6feb;color:#fff;border-radius:6px;cursor:pointer}
-        @media (max-width:480px){.os-chat-container{max-width:95%}}
+        
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .menu-card .icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .menu-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .menu-card p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .admin-section {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+        }
+        
+        .admin-section h3, .admin-section p {
+            color: white;
+        }
+
+        /* Chatbot Styles */
+        .chat-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            max-width: 450px;
+        }
+        
+        .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .chat-messages {
+            padding: 15px;
+            min-height: 200px;
+            max-height: 300px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+        
+        .chat-message {
+            margin: 10px 0;
+            padding: 12px 15px;
+            border-radius: 12px;
+            max-width: 85%;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .chat-bot {
+            background: #e8f0fe;
+            color: #333;
+            margin-right: auto;
+        }
+        
+        .chat-user {
+            background: #667eea;
+            color: white;
+            margin-left: auto;
+        }
+        
+        .chat-input-area {
+            display: flex;
+            padding: 15px;
+            gap: 10px;
+            border-top: 1px solid #eee;
+        }
+        
+        .chat-input-area input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .chat-input-area input:focus {
+            border-color: #667eea;
+        }
+        
+        .chat-input-area button {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+        
+        .chat-input-area button:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
-    <h2>Bienvenido <%= usuario.getNombre() %> 👋</h2>
-    <p>Email: <%= usuario.getEmail() %></p>
-
-    <div class="menu">
-        <h3>Menú principal</h3>
-        <ul>
-            <li><a href="productos.jsp">Gestión de productos</a></li>
-            <li><a href="carrito.jsp">Ver carrito</a></li>
-            <li><a href="pedidos.jsp">Mis pedidos</a></li>
-            <li><a href="logout.jsp">Cerrar sesión</a></li>
-        </ul>
-    </div>
-
-    <!-- Chatbot OtakuShop -->
-    <div id="os-chat-wrapper" class="os-chat-container" role="region" aria-label="Asistente OtakuShop">
-      <div class="os-chat-header">OtakuShop — Asistente</div>
-      <div id="os-messages" class="os-messages" role="log" aria-live="polite"></div>
-      <div class="os-input-area">
-        <input id="os-userInput" placeholder="Escribe tu pregunta..." aria-label="Pregunta">
-        <button id="os-sendBtn">Enviar</button>
-      </div>
+    <%-- Incluir navbar --%>
+    <%@ include file="navbar.jsp" %>
+    
+    <div class="main-content">
+        <%-- Tarjeta de bienvenida --%>
+        <div class="welcome-card">
+            <h2>
+                Bienvenido, ${sessionScope.usuario.nombre} 
+                <c:if test="${not empty sessionScope.usuario.apellido}">
+                    ${sessionScope.usuario.apellido}
+                </c:if>
+                👋
+            </h2>
+            
+            <div class="user-details">
+                <div class="detail-item">
+                    <label>📧 Email</label>
+                    <span>${sessionScope.usuario.email}</span>
+                </div>
+                <div class="detail-item">
+                    <label>👤 Username</label>
+                    <span>
+                        <c:choose>
+                            <c:when test="${not empty sessionScope.usuario.username}">
+                                ${sessionScope.usuario.username}
+                            </c:when>
+                            <c:otherwise>
+                                No definido
+                            </c:otherwise>
+                        </c:choose>
+                    </span>
+                </div>
+                <div class="detail-item">
+                    <label>🎭 Rol</label>
+                    <span>
+                        <c:choose>
+                            <c:when test="${esAdmin}">
+                                <strong style="color: #f39c12;">👑 Administrador</strong>
+                            </c:when>
+                            <c:otherwise>
+                                <strong style="color: #3498db;">Cliente</strong>
+                            </c:otherwise>
+                        </c:choose>
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+        <%-- Menú de navegación --%>
+        <div class="menu-grid">
+            <%-- ENLACE CORREGIDO: Apunta al Servlet --%>
+            <a href="${pageContext.request.contextPath}/productos" class="menu-card">
+                <div class="icon">📦</div>
+                <h3>Productos</h3>
+                <p>Explora nuestro catálogo de productos otaku</p>
+            </a>
+            
+            <a href="${pageContext.request.contextPath}/carrito.jsp" class="menu-card">
+                <div class="icon">🛒</div>
+                <h3>Mi Carrito</h3>
+                <p>Revisa los productos en tu carrito</p>
+            </a>
+            
+            <a href="${pageContext.request.contextPath}/pedidos.jsp" class="menu-card">
+                <div class="icon">📋</div>
+                <h3>Mis Pedidos</h3>
+                <p>Historial de compras realizadas</p>
+            </a>
+            
+            <%-- Opciones solo para admin --%>
+            <c:if test="${esAdmin}">
+                <a href="${pageContext.request.contextPath}/productos?accion=nuevo" class="menu-card admin-section">
+                    <div class="icon">➕</div>
+                    <h3>Agregar Producto</h3>
+                    <p>Añadir nuevos productos al catálogo</p>
+                </a>
+            </c:if>
+            
+            <a href="${pageContext.request.contextPath}/logout" class="menu-card">
+                <div class="icon">🚪</div>
+                <h3>Cerrar Sesión</h3>
+                <p>Salir de tu cuenta de forma segura</p>
+            </a>
+        </div>
+        
+        <%-- Chatbot --%>
+        <div class="chat-container">
+            <div class="chat-header">💬 OtakuShop — Asistente Virtual</div>
+            <div id="chat-messages" class="chat-messages"></div>
+            <div class="chat-input-area">
+                <input type="text" id="chat-input" placeholder="Escribe tu pregunta..." 
+                       onkeypress="if(event.key==='Enter') enviarMensaje()">
+                <button onclick="enviarMensaje()">Enviar</button>
+            </div>
+        </div>
     </div>
 
     <script>
-      const messagesEl = document.getElementById('os-messages');
-      const inputEl = document.getElementById('os-userInput');
+        const messagesEl = document.getElementById('chat-messages');
+        const inputEl = document.getElementById('chat-input');
 
-      function addMessage(text, who){
-        const d = document.createElement('div');
-        d.className = 'os-message ' + (who === 'user' ? 'os-user' : 'os-bot');
-        d.textContent = text;
-        messagesEl.appendChild(d);
-        messagesEl.scrollTop = messagesEl.scrollHeight;
-      }
-
-      // Base de conocimiento personalizada
-      const KB = [
-        {k:['productos','producto','catálogo','catalogo','figuras','mangas','funkos','peliculas'], r:'En OtakuShop tenemos figuras, mangas, funkos y películas de anime. El catálogo completo está en la sección Productos.'},
-        {k:['catalogo','catálogo'], r:'Haz clic en la pestaña “Productos” o ingresa a /productos.jsp.'},
-        {k:['pedido','comprar','compra','orden'], r:'Inicia sesión, agrega productos al carrito y confirma la compra en la sección “Pedidos”.'},
-        {k:['pago','pagos','metodos'], r:'Aceptamos pagos simulados en línea (demo) y pagos contra entrega.'},
-        {k:['login','iniciar','sesion','entrar'], r:'Inicia sesión desde la página login.jsp con tu correo y contraseña.'},
-        {k:['registro','registrar','crear cuenta'], r:'Por ahora el registro se hace en la base de datos con usuarios de prueba. Pronto estará disponible un formulario en línea.'},
-        {k:['objetivo','proyecto','meta'], r:'OtakuShopWeb2 es un proyecto académico para gestionar una tienda online con Java, JSP, Servlets y MySQL.'},
-        {k:['api','endpoint','rest'], r:'Sí, tenemos endpoints REST para usuarios, productos, carrito y pedidos. Ejemplo: /api/productos'},
-        {k:['repo','github','repositorio','codigo'], r:'Repositorio oficial: https://github.com/rsso2025/GA7-220501096-AA3-EV01'}
-      ];
-
-      function getAnswer(text){
-        const t = text.toLowerCase();
-        for(const item of KB){
-          for(const kw of item.k){
-            if(t.includes(kw)) return item.r;
-          }
+        function agregarMensaje(texto, tipo) {
+            const div = document.createElement('div');
+            div.className = 'chat-message chat-' + tipo;
+            div.textContent = texto;
+            messagesEl.appendChild(div);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
         }
-        return 'Lo siento, no tengo respuesta para eso 😅. Pregunta por: productos, pedido, login, API o repositorio.';
-      }
 
-      function ask(text){
-        addMessage(text, 'user');
-        inputEl.value = '';
-        const ans = getAnswer(text);
-        addMessage(ans, 'bot');
-      }
+        const respuestas = [
+            {palabras: ['productos','producto','catalogo','figuras','mangas','funkos'], respuesta: 'En OtakuShop tenemos figuras, mangas, funkos y más. Haz clic en "Productos" en el menú.'},
+            {palabras: ['pedido','comprar','compra','orden'], respuesta: 'Para comprar, agrega productos al carrito y finaliza en "Mis Pedidos".'},
+            {palabras: ['pago','pagos','metodos'], respuesta: 'Aceptamos pagos simulados y contra entrega.'},
+            {palabras: ['carrito'], respuesta: 'Tu carrito muestra los productos que has agregado. Puedes verlo en el menú.'},
+            {palabras: ['hola','buenos dias','buenas'], respuesta: '¡Hola! Soy el asistente de OtakuShop. ¿En qué puedo ayudarte?'},
+            {palabras: ['gracias'], respuesta: '¡De nada! Estoy aquí para ayudarte 😊'},
+            {palabras: ['ayuda','help'], respuesta: 'Puedo ayudarte con: productos, pedidos, carrito, pagos. ¿Qué necesitas?'}
+        ];
 
-      document.getElementById('os-sendBtn').addEventListener('click', ()=>{
-        const t = inputEl.value.trim(); if(t) ask(t);
-      });
-      inputEl.addEventListener('keypress', (e)=>{ if(e.key==='Enter'){ const t=inputEl.value.trim(); if(t) ask(t); }});
+        function obtenerRespuesta(texto) {
+            const t = texto.toLowerCase();
+            for (const item of respuestas) {
+                for (const palabra of item.palabras) {
+                    if (t.includes(palabra)) return item.respuesta;
+                }
+            }
+            return 'No tengo respuesta para eso 😅. Pregunta sobre: productos, pedidos, carrito o pagos.';
+        }
 
-      // Mensaje inicial
-      addMessage('👋 Hola — soy el asistente de OtakuShop. Pregunta por productos, pedido, login, API o repositorio.', 'bot');
+        function enviarMensaje() {
+            const texto = inputEl.value.trim();
+            if (!texto) return;
+            
+            agregarMensaje(texto, 'user');
+            inputEl.value = '';
+            
+            setTimeout(() => {
+                agregarMensaje(obtenerRespuesta(texto), 'bot');
+            }, 500);
+        }
+
+        // Mensaje de bienvenida
+        agregarMensaje('👋 ¡Hola! Soy el asistente de OtakuShop. Pregúntame sobre productos, pedidos o pagos.', 'bot');
     </script>
 </body>
 </html>

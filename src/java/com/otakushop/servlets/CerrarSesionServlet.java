@@ -15,7 +15,7 @@ public class CerrarSesionServlet extends HttpServlet {
             session.invalidate(); // Cierra la sesión
         }
 
-        // Redirige a login con mensaje opcional de cierre de sesión
+        // Redirige al login con mensaje opcional de cierre de sesión
         response.sendRedirect("login.jsp?mensaje=Cierre de sesión exitoso");
     }
 

@@ -79,7 +79,7 @@ public class PedidosApiServlet extends HttpServlet {
                 pedido.setTotal(total);
                 pedido.setEstado("pendiente"); // estado inicial
 
-                // Insertar pedido
+                // Insertar pedido (columna id_usuario coincide con la BD)
                 String sqlPedido = "INSERT INTO pedidos(id_usuario, total, estado) VALUES(?,?,?)";
                 try (PreparedStatement psPedido = conn.prepareStatement(sqlPedido,
                         Statement.RETURN_GENERATED_KEYS)) {

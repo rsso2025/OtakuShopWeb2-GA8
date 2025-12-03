@@ -2,41 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/web/agregarProducto.html</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/web/bienvenida.jsp</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/web/index.html</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/src/java/com/otakushop/servlets/LoginServlet.java</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/src/java/com/otakushop/servlets/AgregarProductoServlet.java</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/web/WEB-INF/web.xml</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/src/java/com/otakushop/dao/ProductoDAO.java</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/web/productos.jsp</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/src/java/com/otakushop/dao/CarritoDAO.java</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/src/java/com/otakushop/servlets/CarritoServlet.java</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/web/carrito.jsp</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/web/login.jsp</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/src/java/com/otakushop/dao/UsuarioDAO.java</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/src/java/com/otakushop/util/ConexionDB.java</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/src/java/com/otakushop/util/Main.java</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/src/java/com/otakushop/util/Conexion.java</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/src/java/com/otakushop/model/Usuario.java</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/src/java/com/otakushop/model/Carrito.java</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/src/java/com/otakushop/model/Producto.java</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/src/java/com/otakushop/servlets/PedidoServlet.java</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/src/java/com/otakushop/dao/PedidoDAO.java</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/src/java/com/otakushop/model/Pedido.java</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/src/java/com/otakushop/servlets/EditarProductoServlet.java</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/src/java/com/otakushop/servlets/EliminarProductoServlet.java</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/web/home.jsp</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/web/logout.jsp</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/src/java/com/otakushop/servlets/CerrarSesionServlet.java</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/src/java/com/otakushop/servlets/LogoutServlet.java</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/.git/config</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/src/java/com/otakushop/api/UsuariosApiServlet.java</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/src/java/com/otakushop/api/PedidosApiServlet.java</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/src/java/com/otakushop/api/CarritoApiServlet.java</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/src/java/com/otakushop/api/ProductoApiServlet.java</file>
-            <file>file:/C:/proyecto_tienda/OtakuShopWeb2/web/inicio.jsp</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

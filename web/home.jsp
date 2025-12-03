@@ -33,7 +33,7 @@
         <li><a href="productos.jsp">Gestión de productos</a></li>
         <li><a href="carrito.jsp">Ver carrito</a></li>
         <li><a href="pedidos.jsp">Mis pedidos</a></li>
-        <li><a href="logout.jsp">Cerrar sesión</a></li>
+        <li><a href="${pageContext.request.contextPath}/logout">Cerrar sesión</a></li>
     </ul>
 
     <!-- Chatbot OtakuShop integrado -->

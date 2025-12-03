@@ -6,7 +6,7 @@ import java.sql.SQLException;
 public class Main {
     public static void main(String[] args) {
         try {
-            Connection con = ConexionDB.getConexion();
+            Connection con = Conexion.getConnection(); // ← usa la clase correcta
             if (con != null) {
                 System.out.println("Conexión exitosa a la base de datos");
                 con.close();

@@ -5,22 +5,62 @@
                              http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
-    <!-- Welcome file -->
+    <!-- ============================================ -->
+    <!-- CONFIGURACION DE SESION                     -->
+    <!-- ============================================ -->
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+    
+    <!-- ============================================ -->
+    <!-- PAGINA DE INICIO - SOLO LOGIN.JSP           -->
+    <!-- ============================================ -->
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>
 
-    <!-- Login Servlet -->
+    <!-- ============================================ -->
+    <!-- SERVLETS DE AUTENTICACION                   -->
+    <!-- ============================================ -->
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>com.otakushop.servlets.LoginServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
-        <url-pattern>/LoginServlet</url-pattern>
+        <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
-    <!-- Producto Servlet (CRUD) -->
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>com.otakushop.servlets.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CerrarSesionServlet</servlet-name>
+        <servlet-class>com.otakushop.servlets.CerrarSesionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CerrarSesionServlet</servlet-name>
+        <url-pattern>/cerrar-sesion</url-pattern>
+    </servlet-mapping>
+
+    <!-- ============================================ -->
+    <!-- SERVLETS DE PRODUCTOS                       -->
+    <!-- ============================================ -->
+    <servlet>
+        <servlet-name>ProductoServlet</servlet-name>
+        <servlet-class>com.otakushop.servlets.ProductoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProductoServlet</servlet-name>
+        <url-pattern>/productos</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>AgregarProductoServlet</servlet-name>
         <servlet-class>com.otakushop.servlets.AgregarProductoServlet</servlet-class>
@@ -29,8 +69,28 @@
         <servlet-name>AgregarProductoServlet</servlet-name>
         <url-pattern>/AgregarProductoServlet</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>EditarProductoServlet</servlet-name>
+        <servlet-class>com.otakushop.servlets.EditarProductoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditarProductoServlet</servlet-name>
+        <url-pattern>/EditarProductoServlet</url-pattern>
+    </servlet-mapping>
 
-    <!-- Carrito Servlet -->
+    <servlet>
+        <servlet-name>EliminarProductoServlet</servlet-name>
+        <servlet-class>com.otakushop.servlets.EliminarProductoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EliminarProductoServlet</servlet-name>
+        <url-pattern>/EliminarProductoServlet</url-pattern>
+    </servlet-mapping>
+    
+    <!-- ============================================ -->
+    <!-- SERVLETS DE CARRITO                         -->
+    <!-- ============================================ -->
     <servlet>
         <servlet-name>CarritoServlet</servlet-name>
         <servlet-class>com.otakushop.servlets.CarritoServlet</servlet-class>
@@ -40,7 +100,40 @@
         <url-pattern>/CarritoServlet</url-pattern>
     </servlet-mapping>
 
-    <!-- Pedido Servlet -->
+    <servlet>
+        <servlet-name>AgregarCarritoServlet</servlet-name>
+        <servlet-class>com.otakushop.servlets.AgregarCarritoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AgregarCarritoServlet</servlet-name>
+        <url-pattern>/AgregarCarritoServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AgregarCarritoServlet</servlet-name>
+        <url-pattern>/agregar-carrito</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ActualizarCarritoServlet</servlet-name>
+        <servlet-class>com.otakushop.servlets.ActualizarCarritoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ActualizarCarritoServlet</servlet-name>
+        <url-pattern>/ActualizarCarritoServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EliminarCarritoServlet</servlet-name>
+        <servlet-class>com.otakushop.servlets.EliminarCarritoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EliminarCarritoServlet</servlet-name>
+        <url-pattern>/EliminarCarritoServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- ============================================ -->
+    <!-- SERVLETS DE PEDIDOS/COMPRAS                 -->
+    <!-- ============================================ -->
     <servlet>
         <servlet-name>PedidoServlet</servlet-name>
         <servlet-class>com.otakushop.servlets.PedidoServlet</servlet-class>
@@ -49,5 +142,30 @@
         <servlet-name>PedidoServlet</servlet-name>
         <url-pattern>/PedidoServlet</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>FinalizarCompraServlet</servlet-name>
+        <servlet-class>com.otakushop.servlets.FinalizarCompraServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FinalizarCompraServlet</servlet-name>
+        <url-pattern>/FinalizarCompraServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FinalizarCompraServlet</servlet-name>
+        <url-pattern>/finalizar-compra</url-pattern>
+    </servlet-mapping>
+
+    <!-- ============================================ -->
+    <!-- PAGINAS DE ERROR PERSONALIZADAS             -->
+    <!-- ============================================ -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/login.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error.jsp</location>
+    </error-page>
 
 </web-app>
